@@ -18,3 +18,25 @@
 | Арифметический оператор  | `+`, `-`, `*`, `/`       | ARITH_OP    |
 | Скобки                   | `(.*)`                   | BRACKET     |
 | Операторы чтения/записи  | `READ`, `WRITE`          | IO_OP       |
+
+Пример кода написанного для данного лексера
+
+```
+{
+    int a = 24;
+    int binA = 0b11000;
+    int octA = 0o30;
+    int hexA = 0h18;
+    float b = 24.00;
+    string c = 'Test!';
+    // This is comment
+    if (binA < octA)
+    {
+        WRITE('NO');
+    }
+    else
+    {
+      WRITE('YES');
+    }
+}
+```
