@@ -10,6 +10,7 @@ struct Token
 		ERROR,
 		END_OF_FILE,
 		ARITH_OP,
+		SEPARATOR,
 	};
 
 	Type type;

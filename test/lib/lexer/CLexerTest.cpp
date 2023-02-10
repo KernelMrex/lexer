@@ -124,3 +124,29 @@ TEST(CLexerTest, CorrectlyHandlesArithmeticOpDiv)
 	ASSERT_EQ(token.line, 2);
 	ASSERT_EQ(token.column, 3);
 }
+
+TEST(CLexerTest, CorrectlyHandlesSeparatorSemicolon)
+{
+	std::istringstream iss(";");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesSeparatorComma)
+{
+	std::istringstream iss(",");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ",");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
