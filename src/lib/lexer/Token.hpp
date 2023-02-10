@@ -11,6 +11,7 @@ struct Token
 		END_OF_FILE,
 		ARITH_OP,
 		SEPARATOR,
+		ASSIGN,
 	};
 
 	Type type;
