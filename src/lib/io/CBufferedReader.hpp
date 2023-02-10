@@ -16,24 +16,7 @@ public:
 	{
 	}
 
-	bool Read(char& ch) override
-	{
-		if (m_index % m_buf.size() == 0)
-		{
-			if (!ReadNextChunk())
-			{
-				return false;
-			}
-		}
-
-		if (m_index % m_buf.size() >= m_currentBufferSize)
-		{
-			return false;
-		}
-
-		ch = m_buf[m_index++ % m_buf.size()];
-		return true;
-	}
+	bool Read(char& ch) override;
 
 private:
 	std::istream& m_in;
@@ -41,18 +24,7 @@ private:
 	std::size_t m_currentBufferSize;
 	std::size_t m_index;
 
-	bool ReadNextChunk()
-	{
-		if (!m_in)
-		{
-			return false;
-		}
-
-		m_in.read(m_buf.data(), (long) m_buf.size());
-		m_currentBufferSize = m_in ? m_buf.size() : m_in.gcount();
-
-		return true;
-	}
+	bool ReadNextChunk();
 };
 
 #endif // LEXER_CBUFFEREDREADER_HPP

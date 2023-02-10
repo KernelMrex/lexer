@@ -18,6 +18,7 @@ add_executable(
         src/main.cpp
         src/lib/io/IReader.hpp
         src/lib/io/CBufferedReader.hpp
+        src/lib/io/CBufferedReader.cpp
 )
 
 add_executable(
@@ -26,6 +27,7 @@ add_executable(
         src/lib/io/CBufferedReader.hpp
 
         test/lib/io/CBufferedReaderTest.cpp
+        src/lib/io/CBufferedReader.cpp
 )
 
 target_link_libraries(lexer_unit_test gtest gtest_main gmock)
