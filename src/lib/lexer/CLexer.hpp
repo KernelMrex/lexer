@@ -6,6 +6,7 @@
 #include "../io/IReader.hpp"
 #include "ILexer.hpp"
 #include <iostream>
+#include <map>
 #include <memory>
 
 class CLexer : public ILexer
@@ -58,6 +59,10 @@ public:
 private:
 	std::unique_ptr<CMemorizedReader> m_reader;
 	std::size_t m_line, m_column;
+	inline static const std::map<std::string, Token::Type> m_reservedWords = {
+		{ "READ", Token::Type::IO_OP },
+		{ "WRITE", Token::Type::IO_OP },
+	};
 
 	static bool IsIdentifierStart(char ch)
 	{
@@ -72,7 +77,7 @@ private:
 	Token ParseIdentifier(char firstCh)
 	{
 		std::size_t idBeginColumn = m_column;
-		std::string identifier{firstCh};
+		std::string identifier{ firstCh };
 		char ch;
 		while (m_reader->ReadWithMemorize(ch) && IsIdentifierChar(ch))
 		{
@@ -80,7 +85,14 @@ private:
 			m_column++;
 			identifier.push_back(ch);
 		}
-		return { Token::Type::ID, identifier, m_line, idBeginColumn };
+
+		auto it = m_reservedWords.find(identifier);
+		return {
+			.type = (it != m_reservedWords.end()) ? it->second : Token::Type::ID,
+			.lexem = identifier,
+			.line = m_line,
+			.column = idBeginColumn
+		};
 	}
 };
 

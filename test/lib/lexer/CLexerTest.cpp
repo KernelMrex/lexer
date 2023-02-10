@@ -227,3 +227,54 @@ TEST(CLexerTest, CorrectlyHandlesMultipleIdWithSeparator)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 6);
 }
+
+TEST(CLexerTest, CorrectlyHandlesIOOPRead)
+{
+	std::istringstream iss("READ");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::IO_OP);
+	ASSERT_EQ(token.lexem, "READ");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIOOPWrite)
+{
+	std::istringstream iss("WRITE");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::IO_OP);
+	ASSERT_EQ(token.lexem, "WRITE");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesMultipleIOOPRead)
+{
+	std::istringstream iss("READ;WRITE");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::IO_OP);
+	ASSERT_EQ(token.lexem, "READ");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 5);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::IO_OP);
+	ASSERT_EQ(token.lexem, "WRITE");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 6);
+}

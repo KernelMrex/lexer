@@ -14,6 +14,7 @@ struct Token
 		ASSIGN,
 		BRACKET,
 		ID,
+		IO_OP,
 	};
 
 	Type type;
