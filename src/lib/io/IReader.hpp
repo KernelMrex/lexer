@@ -4,7 +4,7 @@
 class IReader
 {
 public:
-	virtual char Read() = 0;
+	virtual bool Read(char& ch) = 0;
 
 	virtual ~IReader() = default;
 };

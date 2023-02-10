@@ -11,26 +11,34 @@ public:
 	explicit CBufferedReader(std::istream& in, std::size_t bufferSize = 256)
 		: m_in(in)
 		, m_buf(std::vector<char>(bufferSize, 0))
+		, m_currentBufferSize(0)
 		, m_index(0)
 	{
 	}
 
-	char Read() override
+	bool Read(char& ch) override
 	{
-		if (m_index % m_buf.size() == 0 || m_buf[m_index] == 0)
+		if (m_index % m_buf.size() == 0)
 		{
 			if (!ReadNextChunk())
 			{
-				return 0;
+				return false;
 			}
 		}
 
-		return m_buf[m_index++ % m_buf.size()];
+		if (m_index % m_buf.size() >= m_currentBufferSize)
+		{
+			return false;
+		}
+
+		ch = m_buf[m_index++ % m_buf.size()];
+		return true;
 	}
 
 private:
 	std::istream& m_in;
 	std::vector<char> m_buf;
+	std::size_t m_currentBufferSize;
 	std::size_t m_index;
 
 	bool ReadNextChunk()
@@ -41,7 +49,7 @@ private:
 		}
 
 		m_in.read(m_buf.data(), (long) m_buf.size());
-		m_buf[m_in ? m_buf.size() : m_in.gcount()] = 0;
+		m_currentBufferSize = m_in ? m_buf.size() : m_in.gcount();
 
 		return true;
 	}

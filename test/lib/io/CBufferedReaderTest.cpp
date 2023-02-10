@@ -6,22 +6,48 @@ TEST(CBufferedReaderTest, ReadWithoutBufferUpdate)
 {
 	std::istringstream iss("abc");
 	CBufferedReader reader(iss);
-	ASSERT_EQ(reader.Read(), 'a');
-	ASSERT_EQ(reader.Read(), 'b');
-	ASSERT_EQ(reader.Read(), 'c');
-	ASSERT_EQ(reader.Read(), 0);
-	ASSERT_EQ(reader.Read(), 0);
+	char ch;
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'a');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'b');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'c');
+
+	ASSERT_FALSE(reader.Read(ch));
+	ASSERT_EQ(ch, 'c');
+
+	ASSERT_FALSE(reader.Read(ch));
+	ASSERT_EQ(ch, 'c');
 }
 
 TEST(CBufferedReaderTest, ReadWithBufferUpdate)
 {
 	std::istringstream iss("abcde");
 	CBufferedReader reader(iss, 3);
-	ASSERT_EQ(reader.Read(), 'a');
-	ASSERT_EQ(reader.Read(), 'b');
-	ASSERT_EQ(reader.Read(), 'c');
-	ASSERT_EQ(reader.Read(), 'd');
-	ASSERT_EQ(reader.Read(), 'e');
-	ASSERT_EQ(reader.Read(), 0);
-	ASSERT_EQ(reader.Read(), 0);
+	char ch;
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'a');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'b');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'c');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'd');
+
+	ASSERT_TRUE(reader.Read(ch));
+	ASSERT_EQ(ch, 'e');
+
+	ASSERT_FALSE(reader.Read(ch));
+	ASSERT_EQ(ch, 'e');
+
+	ASSERT_FALSE(reader.Read(ch));
+	ASSERT_EQ(ch, 'e');
 }
