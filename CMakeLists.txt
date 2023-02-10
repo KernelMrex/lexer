@@ -19,15 +19,22 @@ add_executable(
         src/lib/io/IReader.hpp
         src/lib/io/CBufferedReader.hpp
         src/lib/io/CBufferedReader.cpp
+        src/lib/lexer/Token.hpp
+        src/lib/lexer/ILexer.hpp
+        src/lib/lexer/CLexer.hpp
 )
 
 add_executable(
         lexer_unit_test
         src/lib/io/IReader.hpp
         src/lib/io/CBufferedReader.hpp
+        src/lib/io/CBufferedReader.cpp
+        src/lib/lexer/Token.hpp
+        src/lib/lexer/ILexer.hpp
+        src/lib/lexer/CLexer.hpp
 
         test/lib/io/CBufferedReaderTest.cpp
-        src/lib/io/CBufferedReader.cpp
+        test/lib/lexer/CLexerTest.cpp
 )
 
 target_link_libraries(lexer_unit_test gtest gtest_main gmock)
