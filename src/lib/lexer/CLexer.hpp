@@ -39,6 +39,9 @@ public:
 				return Token{ Token::Type::SEPARATOR, std::string{ ch }, m_line, m_column };
 			case '=':
 				return Token{ Token::Type::ASSIGN, "=", m_line, m_column };
+			case '(':
+			case ')':
+				return Token{ Token::Type::BRACKET, std::string{ ch }, m_line, m_column };
 			default:
 				return Token{ Token::Type::ERROR, "", m_line, m_column };
 			}
