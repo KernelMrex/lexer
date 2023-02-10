@@ -59,9 +59,13 @@ public:
 private:
 	std::unique_ptr<CMemorizedReader> m_reader;
 	std::size_t m_line, m_column;
+
 	inline static const std::map<std::string, Token::Type> m_reservedWords = {
 		{ "READ", Token::Type::IO_OP },
 		{ "WRITE", Token::Type::IO_OP },
+		{ "int", Token::Type::TYPE },
+		{ "float", Token::Type::TYPE },
+		{ "string", Token::Type::TYPE },
 	};
 
 	static bool IsIdentifierStart(char ch)

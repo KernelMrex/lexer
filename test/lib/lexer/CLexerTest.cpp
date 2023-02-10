@@ -278,3 +278,42 @@ TEST(CLexerTest, CorrectlyHandlesMultipleIOOPRead)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 6);
 }
+
+TEST(CLexerTest, CorrectlyHandlesTypeInt)
+{
+	std::istringstream iss("int");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::TYPE);
+	ASSERT_EQ(token.lexem, "int");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesTypeFloat)
+{
+	std::istringstream iss("float");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::TYPE);
+	ASSERT_EQ(token.lexem, "float");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesTypeString)
+{
+	std::istringstream iss("string");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::TYPE);
+	ASSERT_EQ(token.lexem, "string");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}

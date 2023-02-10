@@ -15,6 +15,7 @@ struct Token
 		BRACKET,
 		ID,
 		IO_OP,
+		TYPE,
 	};
 
 	Type type;
