@@ -189,3 +189,41 @@ TEST(CLexerTest, CorrectlyHandlesBracketClosing)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
+
+TEST(CLexerTest, CorrectlyHandlesId)
+{
+	std::istringstream iss("test");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ID);
+	ASSERT_EQ(token.lexem, "test");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesMultipleIdWithSeparator)
+{
+	std::istringstream iss("test;test2");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ID);
+	ASSERT_EQ(token.lexem, "test");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 5);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ID);
+	ASSERT_EQ(token.lexem, "test2");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 6);
+}

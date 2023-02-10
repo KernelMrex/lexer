@@ -22,6 +22,7 @@ add_executable(
         src/lib/lexer/Token.hpp
         src/lib/lexer/ILexer.hpp
         src/lib/lexer/CLexer.hpp
+        src/lib/io/CMemorizedReader.hpp
 )
 
 add_executable(
@@ -32,9 +33,12 @@ add_executable(
         src/lib/lexer/Token.hpp
         src/lib/lexer/ILexer.hpp
         src/lib/lexer/CLexer.hpp
+        src/lib/io/CMemorizedReader.hpp
 
         test/lib/io/CBufferedReaderTest.cpp
         test/lib/lexer/CLexerTest.cpp
+        test/lib/io/CMemorizedReaderTest.cpp
+        test/lib/io/MockReader.cpp
 )
 
 target_link_libraries(lexer_unit_test gtest gtest_main gmock)

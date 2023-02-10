@@ -12,7 +12,8 @@ struct Token
 		ARITH_OP,
 		SEPARATOR,
 		ASSIGN,
-		BRACKET
+		BRACKET,
+		ID,
 	};
 
 	Type type;
