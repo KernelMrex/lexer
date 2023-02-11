@@ -13,6 +13,7 @@ struct Token
 		SEPARATOR,
 		ASSIGN,
 		BRACKET,
+		CURLY_BRACES,
 		ID,
 		IO_OP,
 		TYPE,

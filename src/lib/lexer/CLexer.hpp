@@ -48,6 +48,9 @@ public:
 			case '(':
 			case ')':
 				return Token{ Token::Type::BRACKET, std::string{ ch }, m_line, m_column };
+			case '{':
+			case '}':
+				return Token{ Token::Type::CURLY_BRACES, std::string{ ch }, m_line, m_column };
 			case '\'':
 				return ParseString(ch);
 			case '#':
