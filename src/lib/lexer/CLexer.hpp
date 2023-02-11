@@ -33,6 +33,8 @@ public:
 				m_column = 0;
 				m_line++;
 				continue;
+			case ' ':
+				continue;
 			case '+':
 			case '-':
 			case '/':
