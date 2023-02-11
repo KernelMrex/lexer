@@ -1,4 +1,4 @@
-#include "../../../src/lib/io/CBufferedReader.hpp"
+#include "../../../../src/lib/io/CBufferedReader.hpp"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 

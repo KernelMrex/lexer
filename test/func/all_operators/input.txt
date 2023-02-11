@@ -1,0 +1,26 @@
+int a = 24;
+int binA = 0b11000;
+int octA = 0o30;
+int hexA = 0h18;
+float b = 24.00;
+string c = 'Test!';
+
+if (binA < octA)
+{
+    c = '1';
+}
+
+while (binA == octB)
+{
+    c = 'String literal';
+}
+
+write('NO!');
+read(c);
+
+octA + binA;
+octA - binA;
+octA * binA;
+octA / binA;
+
+octA, binA, decA;

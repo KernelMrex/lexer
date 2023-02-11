@@ -1,5 +1,5 @@
-#include "../../../src/lib/io/CBufferedReader.hpp"
-#include "../../../src/lib/io/CMemorizedReader.hpp"
+#include "../../../../src/lib/io/CBufferedReader.hpp"
+#include "../../../../src/lib/io/CMemorizedReader.hpp"
 #include "MockReader.cpp"
 #include <gtest/gtest.h>
 

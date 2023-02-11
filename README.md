@@ -1,5 +1,9 @@
 # Лабораторная работа по теме Лексер
 
+Волгатех 3 курс Операционные системы.
+
+## Техническое задание
+
 Лексические единицы
 
 | Название                 | Регулярное выражение     | Код лексемы |
@@ -41,4 +45,24 @@
       write('YES');
     }
 }
+```
+
+## Разработка
+
+Сборка(выполняется из корня репозитория)
+```bash
+cmake -S . -B cmake-build-debug/
+cd cmake-build-debug
+make
+```
+
+Запуск функциональных тестов
+```bash
+cd ./test/func
+python3 ../../~dev/pytest/__main__.py ./pytest_config.json ../../cmake-build-debug/lexer
+```
+
+Запуск юнит тестов
+```bash
+./cmake-build-debug/lexer_unit_test
 ```

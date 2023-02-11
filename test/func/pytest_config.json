@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "name": "All operators",
+      "description": "Checking all operators in a simple program",
+      "exec_args": [],
+      "input": {
+        "type": "file",
+        "path": "./all_operators/input.txt"
+      },
+      "output": {
+        "type": "file",
+        "path": "./all_operators/output.txt"
+      },
+      "expected": {
+        "type": "file",
+        "path": "./all_operators/expected.txt"
+      },
+      "return_code": 0
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-#include "../../../src/lib/lexer/CLexer.hpp"
+#include "../../../../src/lib/lexer/CLexer.hpp"
 #include <gtest/gtest.h>
 
 TEST(CLexerTest, CorrectlyHandlesArithmeticOpSum)

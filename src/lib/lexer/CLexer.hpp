@@ -128,7 +128,6 @@ private:
 			if (!m_reader->Read(ch))
 			{
 				return Token{ Token::Type::ERROR, "", m_line, m_column };
-				;
 			}
 			m_column++;
 			string.push_back(ch);

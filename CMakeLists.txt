@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.22)
 project(lexer)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -35,10 +35,10 @@ add_executable(
         src/lib/lexer/CLexer.hpp
         src/lib/io/CMemorizedReader.hpp
 
-        test/lib/io/CBufferedReaderTest.cpp
-        test/lib/lexer/CLexerTest.cpp
-        test/lib/io/CMemorizedReaderTest.cpp
-        test/lib/io/MockReader.cpp
+        test/unit/lib/io/CBufferedReaderTest.cpp
+        test/unit/lib/lexer/CLexerTest.cpp
+        test/unit/lib/io/CMemorizedReaderTest.cpp
+        test/unit/lib/io/MockReader.cpp
 )
 
 target_link_libraries(lexer_unit_test gtest gtest_main gmock)
