@@ -50,6 +50,9 @@ public:
 				return Token{ Token::Type::BRACKET, std::string{ ch }, m_line, m_column };
 			case '\'':
 				return ParseString(ch);
+			case '#':
+				SkipComment();
+				continue;
 			default:
 				if (IsIdentifierStart(ch))
 				{
@@ -263,6 +266,20 @@ private:
 		}
 
 		return Token{ Token::Type::FLOAT, num, m_line, firstCharColumn };
+	}
+
+	void SkipComment()
+	{
+		for (char ch; m_reader->Read(ch);)
+		{
+			m_column++;
+			if (ch == '\n')
+			{
+				m_column = 0;
+				m_line++;
+				return;
+			}
+		}
 	}
 };
 

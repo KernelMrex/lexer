@@ -692,3 +692,16 @@ TEST(CLexerTest, CorrectlyHandlesSpaces)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 3);
 }
+
+TEST(CLexerTest, CorrectlyhandlesCommentString)
+{
+	std::istringstream iss("# tes 234234 tt345es 345tt 456est\n");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::END_OF_FILE);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 2);
+	ASSERT_EQ(token.column, 1);
+}

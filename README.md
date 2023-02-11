@@ -35,7 +35,7 @@
     int hexA = 0h18;
     float b = 24.00;
     string c = 'Test!';
-    // This is comment
+    # This is comment
     if (binA < octA)
     {
         write('NO');
