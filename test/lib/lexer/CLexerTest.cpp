@@ -317,3 +317,48 @@ TEST(CLexerTest, CorrectlyHandlesTypeString)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
+
+TEST(CLexerTest, CorrectlyHandlesString)
+{
+	std::istringstream iss("'something in the string'");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::STRING);
+	ASSERT_EQ(token.lexem, "'something in the string'");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesMultipleStrings)
+{
+	std::istringstream iss("'abs''edf'");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::STRING);
+	ASSERT_EQ(token.lexem, "'abs'");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::STRING);
+	ASSERT_EQ(token.lexem, "'edf'");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 6);
+}
+
+TEST(CLexerTest, CorrectlyHandlesEmptyString)
+{
+	std::istringstream iss("''");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::STRING);
+	ASSERT_EQ(token.lexem, "''");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}

@@ -44,6 +44,8 @@ public:
 			case '(':
 			case ')':
 				return Token{ Token::Type::BRACKET, std::string{ ch }, m_line, m_column };
+			case '\'':
+				return ParseString(ch);
 			default:
 				if (IsIdentifierStart(ch))
 				{
@@ -97,6 +99,26 @@ private:
 			.line = m_line,
 			.column = idBeginColumn
 		};
+	}
+
+	Token ParseString(char firstCh)
+	{
+		std::size_t idBeginColumn = m_column;
+		std::string string{ firstCh };
+
+		char ch = 0;
+		while (ch != '\'')
+		{
+			if (!m_reader->Read(ch))
+			{
+				return Token{ Token::Type::ERROR, "", m_line, m_column };
+				;
+			}
+			m_column++;
+			string.push_back(ch);
+		}
+
+		return { Token::Type::STRING, string, m_line, idBeginColumn };
 	}
 };
 
