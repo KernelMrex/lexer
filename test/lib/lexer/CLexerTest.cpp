@@ -375,3 +375,133 @@ TEST(CLexerTest, CorrectlyHandlesUnclosedString)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
+
+TEST(CLexerTest, CorrectlyHandlesIntZero)
+{
+	std::istringstream iss("0");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntHexNumber)
+{
+	std::istringstream iss("0x1234567890abcdef");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0x1234567890abcdef");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidHexNumberWithEmptyNumberPart)
+{
+	std::istringstream iss("0x");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 3);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidHexNumberWithInvalidChars)
+{
+	std::istringstream iss("0x0123456789abcdefg");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 19);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntOctNumber)
+{
+	std::istringstream iss("0o1234567");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0o1234567");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidOctNumberWithEmptyNumberPart)
+{
+	std::istringstream iss("0o");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 3);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidOctNumberWithInvalidChars)
+{
+	std::istringstream iss("0o012345678");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 11);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntBinNumber)
+{
+	std::istringstream iss("0b01");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0b01");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidBinNumberWithEmptyNumberPart)
+{
+	std::istringstream iss("0b");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 3);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntInvalidBinNumberWithInvalidChars)
+{
+	std::istringstream iss("0b012");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ERROR);
+	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 5);
+}

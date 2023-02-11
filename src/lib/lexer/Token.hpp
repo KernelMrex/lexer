@@ -17,6 +17,7 @@ struct Token
 		IO_OP,
 		TYPE,
 		STRING,
+		INT,
 	};
 
 	Type type;

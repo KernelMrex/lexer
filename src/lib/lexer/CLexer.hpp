@@ -5,9 +5,11 @@
 #include "../io/CMemorizedReader.hpp"
 #include "../io/IReader.hpp"
 #include "ILexer.hpp"
+#include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
+#include <set>
 
 class CLexer : public ILexer
 {
@@ -52,6 +54,11 @@ public:
 					return ParseIdentifier(ch);
 				}
 
+				if (IsNumberStart(ch))
+				{
+					return ParseNumber(ch);
+				}
+
 				return Token{ Token::Type::ERROR, "", m_line, m_column };
 			}
 		}
@@ -78,6 +85,11 @@ private:
 	static bool IsIdentifierChar(char ch)
 	{
 		return std::isalnum(ch);
+	}
+
+	static bool IsNumberStart(char ch)
+	{
+		return ch >= '0' && ch <= '9';
 	}
 
 	Token ParseIdentifier(char firstCh)
@@ -119,6 +131,78 @@ private:
 		}
 
 		return { Token::Type::STRING, string, m_line, idBeginColumn };
+	}
+
+	Token ParseNumber(char firstCh)
+	{
+		std::size_t fistCharColumn = m_column;
+		char ch;
+		if (!m_reader->ReadWithMemorize(ch))
+		{
+			return Token{ Token::Type::INT, std::string{ firstCh }, m_line, fistCharColumn };
+		}
+
+		switch (ch)
+		{
+		case 'x':
+			m_reader->Reset();
+			m_column++;
+			return ParseHexNumber(fistCharColumn);
+		case 'o':
+			m_reader->Reset();
+			m_column++;
+			return ParseOctNumber(fistCharColumn);
+		case 'b':
+			m_reader->Reset();
+			m_column++;
+			return ParseBinNumber(fistCharColumn);
+		}
+
+		return { Token::Type::ERROR, "", m_line, m_column };
+	}
+
+	Token ParseHexNumber(std::size_t fistCharColumn)
+	{
+		return ParseInNumberSystem(fistCharColumn, "0x", [](char ch) -> bool {
+			return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f');
+		});
+	}
+
+	Token ParseOctNumber(std::size_t fistCharColumn)
+	{
+		return ParseInNumberSystem(fistCharColumn, "0o", [](char ch) -> bool {
+			return ch >= '0' && ch <= '7';
+		});
+	}
+
+	Token ParseBinNumber(std::size_t fistCharColumn)
+	{
+		return ParseInNumberSystem(fistCharColumn, "0b", [](char ch) -> bool {
+			return ch == '0' || ch == '1';
+		});
+	}
+
+	Token ParseInNumberSystem(std::size_t firstCharColumn, const std::string& prefix, const std::function<bool(char)>& isInRangeCallback)
+	{
+		std::string num(prefix);
+		for (char ch; m_reader->ReadWithMemorize(ch);)
+		{
+			if (!isInRangeCallback(ch))
+			{
+				return Token{ Token::Type::ERROR, "", m_line, m_column + 1 };
+			}
+
+			m_reader->Reset();
+			m_column++;
+			num.push_back(ch);
+		}
+
+		if (num == prefix)
+		{
+			return Token{ Token::Type::ERROR, "", m_line, m_column + 1 };
+		}
+
+		return Token{ Token::Type::INT, num, m_line, firstCharColumn };
 	}
 };
 
