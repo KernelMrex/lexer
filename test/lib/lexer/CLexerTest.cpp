@@ -422,8 +422,14 @@ TEST(CLexerTest, CorrectlyHandlesIntInvalidHexNumberWithInvalidChars)
 	Token token;
 
 	token = lexer.Next();
-	ASSERT_EQ(token.type, Token::Type::ERROR);
-	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0x0123456789abcdef");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ID);
+	ASSERT_EQ(token.lexem, "g");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 19);
 }
@@ -461,8 +467,14 @@ TEST(CLexerTest, CorrectlyHandlesIntInvalidOctNumberWithInvalidChars)
 	Token token;
 
 	token = lexer.Next();
-	ASSERT_EQ(token.type, Token::Type::ERROR);
-	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0o01234567");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "8");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 11);
 }
@@ -500,8 +512,138 @@ TEST(CLexerTest, CorrectlyHandlesIntInvalidBinNumberWithInvalidChars)
 	Token token;
 
 	token = lexer.Next();
-	ASSERT_EQ(token.type, Token::Type::ERROR);
-	ASSERT_EQ(token.lexem, "");
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "0b01");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "2");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 5);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntDecNumber)
+{
+	std::istringstream iss("1234");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "1234");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIntDecNumberWithLeadingZero)
+{
+	std::istringstream iss("01234;001234");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "01234");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 6);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::INT);
+	ASSERT_EQ(token.lexem, "001234");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 7);
+}
+
+TEST(CLexerTest, CorrectlyHandlesFloatNumber)
+{
+	std::istringstream iss("1.2345;123.45;1234.5;");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "1.2345");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 7);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "123.45");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 8);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 14);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "1234.5");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 15);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 21);
+}
+
+TEST(CLexerTest, CorrectlyHandlesFloatNumberWithZeros)
+{
+	std::istringstream iss("0.1234;00.123;0.0001;");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "0.1234");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 7);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "00.123");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 8);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 14);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::FLOAT);
+	ASSERT_EQ(token.lexem, "0.0001");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 15);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::SEPARATOR);
+	ASSERT_EQ(token.lexem, ";");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 21);
 }

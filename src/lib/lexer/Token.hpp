@@ -18,6 +18,7 @@ struct Token
 		TYPE,
 		STRING,
 		INT,
+		FLOAT,
 	};
 
 	Type type;

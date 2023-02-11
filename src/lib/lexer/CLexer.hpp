@@ -156,9 +156,19 @@ private:
 			m_reader->Reset();
 			m_column++;
 			return ParseBinNumber(fistCharColumn);
+		case '.':
+			m_reader->Reset();
+			m_column++;
+			return ParseFloatNumber(fistCharColumn, std::string{firstCh, ch});
+		default:
+			if (ch >= '0' && ch <= '9')
+			{
+				m_reader->Reset();
+				m_column++;
+				return ParseDecNumber(fistCharColumn, std::string{firstCh, ch});
+			}
+			return { Token::Type::INT, std::string{ ch }, m_line, m_column };
 		}
-
-		return { Token::Type::ERROR, "", m_line, m_column };
 	}
 
 	Token ParseHexNumber(std::size_t fistCharColumn)
@@ -189,12 +199,12 @@ private:
 		{
 			if (!isInRangeCallback(ch))
 			{
-				return Token{ Token::Type::ERROR, "", m_line, m_column + 1 };
+				break;
 			}
 
-			m_reader->Reset();
 			m_column++;
 			num.push_back(ch);
+			m_reader->Reset();
 		}
 
 		if (num == prefix)
@@ -203,6 +213,53 @@ private:
 		}
 
 		return Token{ Token::Type::INT, num, m_line, firstCharColumn };
+	}
+
+	Token ParseDecNumber(std::size_t firstCharColumn, const std::string& prefix)
+	{
+		std::string num(prefix);
+
+		for (char ch; m_reader->ReadWithMemorize(ch);)
+		{
+			if (ch == '.')
+			{
+				m_column++;
+				num.push_back(ch);
+				m_reader->Reset();
+				return ParseFloatNumber(firstCharColumn, num);
+			}
+
+			if (!(ch >= '0' && ch <= '9'))
+			{
+				break;
+			}
+
+			m_column++;
+
+			num.push_back(ch);
+			m_reader->Reset();
+		}
+
+		return Token{ Token::Type::INT, num, m_line, firstCharColumn };
+	}
+
+	Token ParseFloatNumber(std::size_t firstCharColumn, const std::string& prefix)
+	{
+		std::string num(prefix);
+
+		for (char ch; m_reader->ReadWithMemorize(ch);)
+		{
+			if (!(ch >= '0' && ch <= '9'))
+			{
+				break;
+			}
+
+			m_column++;
+			num.push_back(ch);
+			m_reader->Reset();
+		}
+
+		return Token{ Token::Type::FLOAT, num, m_line, firstCharColumn };
 	}
 };
 
