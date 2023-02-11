@@ -8,6 +8,7 @@ inline static const std::map<Token::Type, std::string> tokenTypeNamesViewMap{
 	{ Token::Type::SEPARATOR, "SEPARATOR" },
 	{ Token::Type::ASSIGN, "ASSIGN" },
 	{ Token::Type::BRACKET, "BRACKET" },
+	{ Token::Type::CURLY_BRACES, "CURLY_BRACES" },
 	{ Token::Type::ID, "ID" },
 	{ Token::Type::IO_OP, "IO_OP" },
 	{ Token::Type::TYPE, "TYPE" },
@@ -16,6 +17,9 @@ inline static const std::map<Token::Type, std::string> tokenTypeNamesViewMap{
 	{ Token::Type::FLOAT, "FLOAT" },
 	{ Token::Type::IF_OP, "IF_OP" },
 	{ Token::Type::LOOP_OP, "LOOP_OP" },
+	{ Token::Type::EQUALITY, "EQUALITY" },
+	{ Token::Type::MORE, "MORE" },
+	{ Token::Type::LESS, "LESS" },
 };
 
 int main()
