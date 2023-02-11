@@ -44,6 +44,16 @@ public:
 			case ';':
 				return Token{ Token::Type::SEPARATOR, std::string{ ch }, m_line, m_column };
 			case '=':
+				if (!m_reader->ReadWithMemorize(ch))
+				{
+					return Token{ Token::Type::ASSIGN, "=", m_line, m_column };
+				}
+				if (ch == '=')
+				{
+					m_column++;
+					m_reader->Reset();
+					return Token{ Token::Type::EQUALITY, "==", m_line, m_column - 1 };
+				}
 				return Token{ Token::Type::ASSIGN, "=", m_line, m_column };
 			case '(':
 			case ')':

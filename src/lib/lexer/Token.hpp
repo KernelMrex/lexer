@@ -22,6 +22,7 @@ struct Token
 		FLOAT,
 		IF_OP,
 		LOOP_OP,
+		EQUALITY,
 	};
 
 	Type type;

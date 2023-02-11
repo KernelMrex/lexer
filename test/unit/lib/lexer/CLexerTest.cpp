@@ -724,3 +724,22 @@ TEST(CLexerTest, CorrectlyHandlesCurlyBraces)
 	ASSERT_EQ(token.line, 2);
 	ASSERT_EQ(token.column, 3);
 }
+
+TEST(CLexerTest, CorrectlyHandlesEqualityOp)
+{
+	std::istringstream iss("== =");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::EQUALITY);
+	ASSERT_EQ(token.lexem, "==");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::ASSIGN);
+	ASSERT_EQ(token.lexem, "=");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 4);
+}
