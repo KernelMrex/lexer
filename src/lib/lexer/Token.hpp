@@ -23,6 +23,8 @@ struct Token
 		IF_OP,
 		LOOP_OP,
 		EQUALITY,
+		MORE,
+		LESS,
 	};
 
 	Type type;

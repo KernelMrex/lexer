@@ -743,3 +743,29 @@ TEST(CLexerTest, CorrectlyHandlesEqualityOp)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 4);
 }
+
+TEST(CLexerTest, CorrectlyHandlesMoreOp)
+{
+	std::istringstream iss(">");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::MORE);
+	ASSERT_EQ(token.lexem, ">");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesLessOp)
+{
+	std::istringstream iss("<");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::LESS);
+	ASSERT_EQ(token.lexem, "<");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}

@@ -66,6 +66,10 @@ public:
 			case '#':
 				SkipComment();
 				continue;
+			case '>':
+				return { Token::Type::MORE, ">", m_line, m_column };
+			case '<':
+				return { Token::Type::LESS, "<", m_line, m_column };
 			default:
 				if (IsIdentifierStart(ch))
 				{
