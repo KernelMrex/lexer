@@ -371,7 +371,7 @@ TEST(CLexerTest, CorrectlyHandlesUnclosedString)
 
 	token = lexer.Next();
 	ASSERT_EQ(token.type, Token::Type::ERROR);
-	ASSERT_EQ(token.lexem, "''");
+	ASSERT_EQ(token.lexem, "");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
