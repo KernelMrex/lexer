@@ -230,39 +230,39 @@ TEST(CLexerTest, CorrectlyHandlesMultipleIdWithSeparator)
 
 TEST(CLexerTest, CorrectlyHandlesIOOPRead)
 {
-	std::istringstream iss("READ");
+	std::istringstream iss("read");
 	CLexer lexer(iss);
 	Token token;
 
 	token = lexer.Next();
 	ASSERT_EQ(token.type, Token::Type::IO_OP);
-	ASSERT_EQ(token.lexem, "READ");
+	ASSERT_EQ(token.lexem, "read");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
 
 TEST(CLexerTest, CorrectlyHandlesIOOPWrite)
 {
-	std::istringstream iss("WRITE");
+	std::istringstream iss("write");
 	CLexer lexer(iss);
 	Token token;
 
 	token = lexer.Next();
 	ASSERT_EQ(token.type, Token::Type::IO_OP);
-	ASSERT_EQ(token.lexem, "WRITE");
+	ASSERT_EQ(token.lexem, "write");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 }
 
 TEST(CLexerTest, CorrectlyHandlesMultipleIOOPRead)
 {
-	std::istringstream iss("READ;WRITE");
+	std::istringstream iss("read;write");
 	CLexer lexer(iss);
 	Token token;
 
 	token = lexer.Next();
 	ASSERT_EQ(token.type, Token::Type::IO_OP);
-	ASSERT_EQ(token.lexem, "READ");
+	ASSERT_EQ(token.lexem, "read");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 1);
 
@@ -274,9 +274,35 @@ TEST(CLexerTest, CorrectlyHandlesMultipleIOOPRead)
 
 	token = lexer.Next();
 	ASSERT_EQ(token.type, Token::Type::IO_OP);
-	ASSERT_EQ(token.lexem, "WRITE");
+	ASSERT_EQ(token.lexem, "write");
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 6);
+}
+
+TEST(CLexerTest, CorrectlyHandlesIFOP)
+{
+	std::istringstream iss("if");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::IF_OP);
+	ASSERT_EQ(token.lexem, "if");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
+}
+
+TEST(CLexerTest, CorrectlyHandlesLoopOP)
+{
+	std::istringstream iss("while");
+	CLexer lexer(iss);
+	Token token;
+
+	token = lexer.Next();
+	ASSERT_EQ(token.type, Token::Type::LOOP_OP);
+	ASSERT_EQ(token.lexem, "while");
+	ASSERT_EQ(token.line, 1);
+	ASSERT_EQ(token.column, 1);
 }
 
 TEST(CLexerTest, CorrectlyHandlesTypeInt)
@@ -647,3 +673,4 @@ TEST(CLexerTest, CorrectlyHandlesFloatNumberWithZeros)
 	ASSERT_EQ(token.line, 1);
 	ASSERT_EQ(token.column, 21);
 }
+

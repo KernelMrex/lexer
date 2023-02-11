@@ -70,11 +70,13 @@ private:
 	std::size_t m_line, m_column;
 
 	inline static const std::map<std::string, Token::Type> m_reservedWords = {
-		{ "READ", Token::Type::IO_OP },
-		{ "WRITE", Token::Type::IO_OP },
+		{ "read", Token::Type::IO_OP },
+		{ "write", Token::Type::IO_OP },
 		{ "int", Token::Type::TYPE },
 		{ "float", Token::Type::TYPE },
 		{ "string", Token::Type::TYPE },
+		{ "if", Token::Type::IF_OP },
+		{ "while", Token::Type::LOOP_OP },
 	};
 
 	static bool IsIdentifierStart(char ch)
@@ -159,13 +161,13 @@ private:
 		case '.':
 			m_reader->Reset();
 			m_column++;
-			return ParseFloatNumber(fistCharColumn, std::string{firstCh, ch});
+			return ParseFloatNumber(fistCharColumn, std::string{ firstCh, ch });
 		default:
 			if (ch >= '0' && ch <= '9')
 			{
 				m_reader->Reset();
 				m_column++;
-				return ParseDecNumber(fistCharColumn, std::string{firstCh, ch});
+				return ParseDecNumber(fistCharColumn, std::string{ firstCh, ch });
 			}
 			return { Token::Type::INT, std::string{ ch }, m_line, m_column };
 		}

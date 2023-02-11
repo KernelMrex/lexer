@@ -19,6 +19,8 @@ struct Token
 		STRING,
 		INT,
 		FLOAT,
+		IF_OP,
+		LOOP_OP,
 	};
 
 	Type type;

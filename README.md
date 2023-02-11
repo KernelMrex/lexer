@@ -17,7 +17,9 @@
 | Тип данных               | `int`, `float`, `string` | TYPE        |
 | Арифметический оператор  | `+`, `-`, `*`, `/`       | ARITH_OP    |
 | Скобки                   | `(.*)`                   | BRACKET     |
-| Операторы чтения/записи  | `READ`, `WRITE`          | IO_OP       |
+| Операторы чтения/записи  | `read`, `write`          | IO_OP       |
+| Условный оператор        | `if`                     | IF_OP       |
+| Оператор цикла           | `while`                  | LOOP_OP     |
 
 Пример кода написанного для данного лексера
 
@@ -32,11 +34,11 @@
     // This is comment
     if (binA < octA)
     {
-        WRITE('NO');
+        write('NO');
     }
     else
     {
-      WRITE('YES');
+      write('YES');
     }
 }
 ```
